@@ -1,0 +1,10 @@
+<h1>Editar Contacto</h1>
+<form action="/<%= persona.id %>?_method=PUT" method="POST">
+  <input name="nombres" value="<%= persona.nombres %>">
+  <input name="apellidos" value="<%= persona.apellidos %>">
+  <input type="date" name="fecha_nacimiento" value="<%= fechaNacimientoISO %>">
+  <input name="direccion" value="<%= persona.direccion %>">
+  <input name="celular" value="<%= persona.celular %>">
+  <input name="correo" value="<%= persona.correo %>">
+  <button type="submit">Actualizar</button>
+</form>

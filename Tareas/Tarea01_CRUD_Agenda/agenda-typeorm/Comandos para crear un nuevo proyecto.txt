@@ -1,0 +1,5 @@
+npm init -y
+npm install express body-parser method-override ejs typeorm reflect-metadata mysql2
+
+- Para ejecutar el proyecto
+node app.js

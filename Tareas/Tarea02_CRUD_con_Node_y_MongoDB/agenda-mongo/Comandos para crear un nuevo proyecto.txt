@@ -1,0 +1,9 @@
+npm init -y
+npm install express mongoose ejs body-parser method-override
+
+- Para ejecutar el proyecto
+node app.js
+
+-Para verificar por mongo shell
+use agenda
+bd.agendas.find()

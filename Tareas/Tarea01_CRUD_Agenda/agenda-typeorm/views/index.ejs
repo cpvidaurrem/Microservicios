@@ -1,0 +1,48 @@
+<h1>Agenda</h1>
+<a href="/new">Nuevo contacto</a>
+<br /><br />
+
+<table border="1" cellpadding="5">
+  <thead>
+    <tr>
+      <th>Nombres</th>
+      <th>Apellidos</th>
+      <th>Fecha Nacimiento</th>
+      <th>Dirección</th>
+      <th>Celular</th>
+      <th>Correo</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% agenda.forEach(p => { %>
+    <tr>
+      <td><%= p.nombres %></td>
+      <td><%= p.apellidos %></td>
+      <td>
+        <% if (p.fecha_nacimiento) { %> <%= (p.fecha_nacimiento instanceof Date
+        ? p.fecha_nacimiento.toISOString().slice(0,10) :
+        String(p.fecha_nacimiento).slice(0,10)) %> <% } %>
+      </td>
+      <td><%= p.direccion %></td>
+      <td><%= p.celular %></td>
+      <td><%= p.correo %></td>
+      <td>
+        <a href="/edit/<%= p.id %>">Editar</a>
+        <form
+          action="/<%= p.id %>?_method=DELETE"
+          method="POST"
+          style="display: inline"
+        >
+          <button
+            type="submit"
+            onclick="return confirm('¿Eliminar este contacto?')"
+          >
+            Eliminar
+          </button>
+        </form>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>

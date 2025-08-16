@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Editar Contacto</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Editar Contacto</h1>
+      <form action="/<%= persona._id %>?_method=PUT" method="POST">
+        <input name="nombres" value="<%= persona.nombres %>" required />
+        <input name="apellidos" value="<%= persona.apellidos %>" required />
+        <input
+          type="date"
+          name="fecha_nacimiento"
+          value="<%= fechaNacimientoISO %>"
+          required
+        />
+        <input name="direccion" value="<%= persona.direccion %>" required />
+        <input name="celular" value="<%= persona.celular %>" required />
+        <input name="correo" value="<%= persona.correo %>" required />
+        <button type="submit">🔄 Actualizar</button>
+      </form>
+      <br />
+      <a href="/" class="btn-secondary">⬅ Volver</a>
+    </div>
+  </body>
+</html>

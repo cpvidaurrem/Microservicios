@@ -1,0 +1,6 @@
+npm init -y
+npm install express mysql2 ejs body-parser method-override
+
+
+- Para ejecutar el proyecto
+node app.js
