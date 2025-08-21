@@ -1,0 +1,68 @@
+PRACTICA 2 DOCKER BASICO
+
+1. Comprueba la versión de Docker:
+docker –-version
+
+2.Descarga una imagen de Docker, por ejemplo, httpd (Apache):
+docker pull httpd
+
+3.Consulta las imágenes descargadas:
+docker images
+
+4.Ejecuta una instancia (contenedor) de la imagen descargada (httpd):
+docker run -it -d -p 8080:80 httpd
+
+5.Consulta todas los contenedores creadores:
+docker ps
+docker ps -a
+
+6.Comprueba el funcionamiento del contenedor desde el host:
+http://localhost:8080 
+
+7.Ejecuta la terminal de Linux dentro del contenedor:
+docker ps
+docker exec -it 1503e09877b4 bash
+
+8.Borra el contenedor creado:
+docker stop 1503e09877b4
+docker rm 1503e09877b4
+
+9.Comprueba que el contenedor ha sido eliminado:
+docker ps -a
+
+10.Borra la imagen usando la identificación del Comprueba que el contenedor ha sido eliminado:
+docker images
+docker rmi 3198c1839e1a
+docker rmi -f 3198c1839e1a 
+
+11.Reinicia el contenedor:
+docker restart 2e50e06a5c84
+docker ps -a
+
+12.Detén y levanta el contenedor:
+docker stop 311b04763e53
+docker ps
+docker start 311b04763e53
+docker ps
+
+13.Mata el contenedor:
+docker ps
+docker kill 311b04763e53
+docker ps
+
+14.Visualiza los detalles de la red definida con los clústeres:
+docker network
+docker network ls
+docker ps
+
+15.Obtén información detallada sobre los recursos de Docker:
+docker Info
+
+
+16.Revisa el historial de una imagen:
+docker history httpd
+
+17.Busca una imagen según el nombre:
+docker search mongo
+
+
