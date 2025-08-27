@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Nuevo Contacto</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Nuevo Contacto</h1>
+      <form action="/" method="POST">
+        <input name="nombres" placeholder="Nombres" required />
+        <input name="apellidos" placeholder="Apellidos" required />
+        <input type="date" name="fecha_nacimiento" required />
+        <input name="direccion" placeholder="Dirección" required />
+        <input name="celular" placeholder="Celular" required />
+        <input name="correo" placeholder="Correo" required />
+        <button type="submit">💾 Guardar</button>
+      </form>
+      <br />
+      <a href="/" class="btn-secondary">⬅ Volver</a>
+    </div>
+  </body>
+</html>

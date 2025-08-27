@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Agenda</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Agenda</h1>
+      <a href="/new" class="btn-primary">➕ Nuevo contacto</a>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Fecha Nacimiento</th>
+            <th>Dirección</th>
+            <th>Celular</th>
+            <th>Correo</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% agenda.forEach(p => { %>
+          <tr>
+            <td><%= p.nombres %></td>
+            <td><%= p.apellidos %></td>
+            <td>
+              <%= p.fecha_nacimiento ? (p.fecha_nacimiento instanceof Date ?
+              p.fecha_nacimiento.toISOString().slice(0,10) :
+              String(p.fecha_nacimiento).slice(0,10)) : "" %>
+            </td>
+            <td><%= p.direccion %></td>
+            <td><%= p.celular %></td>
+            <td><%= p.correo %></td>
+            <td>
+              <a href="/edit/<%= p._id %>" class="btn-secondary">✏️ Editar</a>
+              <form
+                action="/<%= p._id %>?_method=DELETE"
+                method="POST"
+                style="display: inline"
+              >
+                <button
+                  type="submit"
+                  class="btn-danger"
+                  onclick="return confirm('¿Eliminar este contacto?')"
+                >
+                  🗑 Eliminar
+                </button>
+              </form>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

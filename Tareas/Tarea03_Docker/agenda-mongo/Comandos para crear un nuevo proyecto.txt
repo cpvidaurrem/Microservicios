@@ -1,0 +1,23 @@
+npm init -y
+npm install express mongoose ejs body-parser method-override
+
+- Para ejecutar el proyecto
+node app.js
+
+-Para verificar por mongo shell
+use agenda
+bd.agendas.find()
+
+PASOS PARA TAREA 03
+
+1.En la raíz de tu proyecto (agenda-mongo/) crea un archivo llamado Dockerfile
+
+2. Crear un docker-compose.yml
+-Este archivo te ayudará a levantar tanto tu app Node.js como la base de datos MongoDB juntas.
+
+3. Modificar app.js para usar la variable de entorno
+
+Para correr
+docker-compose build
+docker-compose up
+
