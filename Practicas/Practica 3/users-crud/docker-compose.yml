@@ -1,0 +1,36 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql-users
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: usersdb
+      MYSQL_USER: usersuser
+      MYSQL_PASSWORD: userpass
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+
+  web:
+    build: .
+    container_name: users-app
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: usersuser
+      DB_PASSWORD: userpass
+      DB_NAME: usersdb
+      DB_PORT: 3306
+      PORT: 8080
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/usr/src/app
+
+volumes:
+  db_data:

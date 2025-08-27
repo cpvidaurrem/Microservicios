@@ -1,0 +1,25 @@
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: mongo-tasks
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
+  web:
+    build: .
+    container_name: tasks-app
+    depends_on:
+      - mongo
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/tasksdb
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+
+volumes:
+  mongo_data:

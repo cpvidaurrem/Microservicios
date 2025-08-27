@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Lista de Tareas</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <h1>Tareas</h1>
+    <a class="btn" href="/tasks/new">+ Nueva Tarea</a>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Título</th>
+          <th>Descripción</th>
+          <th>Estado</th>
+          <th>Fecha creación</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (tasks.length === 0) { %>
+        <tr>
+          <td colspan="6">No hay tareas.</td>
+        </tr>
+        <% } %> <% tasks.forEach(task => { %>
+        <tr>
+          <td><%= task._id %></td>
+          <td><a href="/tasks/<%= task._id %>"><%= task.title %></a></td>
+          <td>
+            <%= task.description ? (task.description.length > 80 ?
+            task.description.substring(0,80) + '…' : task.description) : '' %>
+          </td>
+          <td><%= task.status %></td>
+          <td><%= new Date(task.createdAt).toLocaleString() %></td>
+          <td>
+            <a class="small" href="/tasks/<%= task._id %>/edit">Editar</a>
+            <form
+              style="display: inline"
+              action="/tasks/<%= task._id %>?_method=DELETE"
+              method="post"
+              onsubmit="return confirm('Eliminar tarea?');"
+            >
+              <button class="small danger" type="submit">Eliminar</button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </body>
+</html>

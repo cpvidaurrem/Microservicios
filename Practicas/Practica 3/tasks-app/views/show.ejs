@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Detalle Tarea</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <h1><%= task.title %></h1>
+    <p>
+      <strong>Descripción:</strong><br /><%= task.description || '(sin
+      descripción)' %>
+    </p>
+    <p><strong>Estado:</strong> <%= task.status %></p>
+    <p>
+      <strong>Creada:</strong> <%= new Date(task.createdAt).toLocaleString() %>
+    </p>
+
+    <a href="/tasks/<%= task._id %>/edit">Editar</a>
+    <form
+      style="display: inline"
+      action="/tasks/<%= task._id %>?_method=DELETE"
+      method="post"
+      onsubmit="return confirm('Eliminar tarea?');"
+    >
+      <button class="danger" type="submit">Eliminar</button>
+    </form>
+    <br /><br />
+    <a href="/">← Volver a la lista</a>
+  </body>
+</html>

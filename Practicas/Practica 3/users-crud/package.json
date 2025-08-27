@@ -1,0 +1,19 @@
+{
+  "name": "users-crud",
+  "version": "1.0.0",
+  "description": "App Node/Express/EJS con MySQL - listar/crear/eliminar usuarios",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.3"
+  }
+}

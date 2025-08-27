@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Lista de Usuarios</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 30px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background: #f2f2f2;
+      }
+      .actions form {
+        display: inline;
+      }
+      a.button {
+        padding: 6px 10px;
+        background: #2f86eb;
+        color: white;
+        border-radius: 4px;
+        text-decoration: none;
+      }
+      .danger {
+        background: #e14b4b;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Usuarios</h1>
+    <a class="button" href="/add">+ Agregar usuario</a>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Correo Electrónico</th>
+          <th>Fecha de Registro</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (users.length === 0) { %>
+        <tr>
+          <td colspan="5">No hay usuarios registrados.</td>
+        </tr>
+        <% } %> <% users.forEach(function(user){ %>
+        <tr>
+          <td><%= user.id %></td>
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+          <td><%= new Date(user.created_at).toLocaleString() %></td>
+          <td class="actions">
+            <form
+              method="post"
+              action="/delete/<%= user.id %>"
+              onsubmit="return confirm('Eliminar usuario <%= user.name %>?');"
+            >
+              <button class="danger" type="submit">Eliminar</button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </body>
+</html>
