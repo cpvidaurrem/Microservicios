@@ -1,0 +1,528 @@
+openapi: 3.0.3
+info:
+  title: Sales API
+  description: API RESTful para gestión de productos, clientes, facturas y detalles de facturas
+  version: "1.0.0"
+servers:
+  - url: http://localhost:3000/api
+tags:
+  - name: Products
+  - name: Clients
+  - name: Invoices
+  - name: InvoiceDetails
+
+paths:
+  /products:
+    get:
+      tags: [Products]
+      summary: Listar productos (paginado y filtrado)
+      parameters:
+        - in: query
+          name: page
+          schema: { type: integer, default: 1 }
+        - in: query
+          name: limit
+          schema: { type: integer, default: 10 }
+        - in: query
+          name: q
+          schema: { type: string }
+        - in: query
+          name: brand
+          schema: { type: string }
+      responses:
+        "200":
+          description: Lista paginada de productos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedProducts"
+    post:
+      tags: [Products]
+      summary: Crear nuevo producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductCreate"
+      responses:
+        "201":
+          description: Producto creado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+  /products/{id}:
+    get:
+      tags: [Products]
+      summary: Obtener producto por id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Producto
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: No encontrado
+    put:
+      tags: [Products]
+      summary: Actualizar producto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductUpdate"
+      responses:
+        "200":
+          description: Producto actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+    delete:
+      tags: [Products]
+      summary: Eliminar producto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "204":
+          description: Eliminado
+
+  /clients:
+    get:
+      tags: [Clients]
+      summary: Listar clientes (paginado y filtrado)
+      parameters:
+        - in: query
+          name: page
+          schema: { type: integer, default: 1 }
+        - in: query
+          name: limit
+          schema: { type: integer, default: 10 }
+        - in: query
+          name: ci
+          schema: { type: string }
+        - in: query
+          name: q
+          schema: { type: string }
+      responses:
+        "200":
+          description: Lista de clientes
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedClients"
+    post:
+      tags: [Clients]
+      summary: Crear cliente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClientCreate"
+      responses:
+        "201":
+          description: Cliente creado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+  /clients/{id}:
+    get:
+      tags: [Clients]
+      summary: Obtener cliente por id (incluye facturas)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Cliente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClientWithInvoices"
+        "404":
+          description: No encontrado
+    put:
+      tags: [Clients]
+      summary: Actualizar cliente
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClientUpdate"
+      responses:
+        "200":
+          description: Cliente actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+    delete:
+      tags: [Clients]
+      summary: Eliminar cliente
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "204":
+          description: Eliminado
+
+  /invoices:
+    get:
+      tags: [Invoices]
+      summary: Listar facturas (paginado y filtrado)
+      parameters:
+        - in: query
+          name: page
+          schema: { type: integer, default: 1 }
+        - in: query
+          name: limit
+          schema: { type: integer, default: 10 }
+        - in: query
+          name: clientId
+          schema: { type: integer }
+        - in: query
+          name: dateFrom
+          schema: { type: string, format: date }
+        - in: query
+          name: dateTo
+          schema: { type: string, format: date }
+      responses:
+        "200":
+          description: Lista de facturas
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedInvoices"
+    post:
+      tags: [Invoices]
+      summary: Crear factura (sin detalles)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceCreate"
+      responses:
+        "201":
+          description: Factura creada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Invoice"
+  /invoices/{id}:
+    get:
+      tags: [Invoices]
+      summary: Obtener factura por id (incluye cliente y detalles)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Factura con detalles
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceWithDetails"
+        "404":
+          description: No encontrado
+    put:
+      tags: [Invoices]
+      summary: Actualizar factura
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceUpdate"
+      responses:
+        "200":
+          description: Actualizado
+    delete:
+      tags: [Invoices]
+      summary: Eliminar factura
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "204":
+          description: Eliminado
+
+  /invoice-details:
+    post:
+      tags: [InvoiceDetails]
+      summary: Añadir detalle a una factura existente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceDetailCreate"
+      responses:
+        "201":
+          description: Detalle creado
+    get:
+      tags: [InvoiceDetails]
+      summary: (No usado) - use /invoice-details/invoice/{invoiceId}
+      responses:
+        "200":
+          description: OK
+  /invoice-details/invoice/{invoiceId}:
+    get:
+      tags: [InvoiceDetails]
+      summary: Obtener detalles de una factura
+      parameters:
+        - in: path
+          name: invoiceId
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Lista de detalles
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/InvoiceDetailWithProduct"
+  /invoice-details/{id}:
+    put:
+      tags: [InvoiceDetails]
+      summary: Actualizar detalle
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceDetailUpdate"
+      responses:
+        "200":
+          description: Detalle actualizado
+    delete:
+      tags: [InvoiceDetails]
+      summary: Eliminar detalle
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "204":
+          description: Eliminado
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        description: { type: string }
+        brand: { type: string }
+        stock: { type: integer }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    ProductCreate:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string }
+        description: { type: string }
+        brand: { type: string }
+        stock: { type: integer }
+    ProductUpdate:
+      type: object
+      properties:
+        name: { type: string }
+        description: { type: string }
+        brand: { type: string }
+        stock: { type: integer }
+
+    PaginatedProducts:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Product"
+        meta:
+          type: object
+          properties:
+            total: { type: integer }
+            page: { type: integer }
+            limit: { type: integer }
+
+    Client:
+      type: object
+      properties:
+        id: { type: integer }
+        ci: { type: string }
+        firstName: { type: string }
+        lastName: { type: string }
+        gender: { type: string }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    ClientCreate:
+      type: object
+      required: [ci, firstName, lastName]
+      properties:
+        ci: { type: string }
+        firstName: { type: string }
+        lastName: { type: string }
+        gender: { type: string, enum: [M, F, O] }
+    ClientUpdate:
+      type: object
+      properties:
+        ci: { type: string }
+        firstName: { type: string }
+        lastName: { type: string }
+        gender: { type: string, enum: [M, F, O] }
+
+    ClientWithInvoices:
+      allOf:
+        - $ref: "#/components/schemas/Client"
+        - type: object
+          properties:
+            invoices:
+              type: array
+              items:
+                $ref: "#/components/schemas/Invoice"
+
+    PaginatedClients:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Client"
+        meta:
+          type: object
+          properties:
+            total: { type: integer }
+            page: { type: integer }
+            limit: { type: integer }
+
+    Invoice:
+      type: object
+      properties:
+        id: { type: integer }
+        date: { type: string, format: date }
+        clientId: { type: integer }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    InvoiceCreate:
+      type: object
+      required: [date, clientId]
+      properties:
+        date: { type: string, format: date }
+        clientId: { type: integer }
+    InvoiceUpdate:
+      type: object
+      properties:
+        date: { type: string, format: date }
+        clientId: { type: integer }
+
+    InvoiceWithDetails:
+      allOf:
+        - $ref: "#/components/schemas/Invoice"
+        - type: object
+          properties:
+            client:
+              $ref: "#/components/schemas/Client"
+            details:
+              type: array
+              items:
+                $ref: "#/components/schemas/InvoiceDetailWithProduct"
+
+    PaginatedInvoices:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/InvoiceWithDetails"
+        meta:
+          type: object
+          properties:
+            total: { type: integer }
+            page: { type: integer }
+            limit: { type: integer }
+
+    InvoiceDetail:
+      type: object
+      properties:
+        id: { type: integer }
+        invoiceId: { type: integer }
+        productId: { type: integer }
+        quantity: { type: integer }
+        price: { type: number, format: float }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    InvoiceDetailCreate:
+      type: object
+      required: [invoiceId, productId, quantity, price]
+      properties:
+        invoiceId: { type: integer }
+        productId: { type: integer }
+        quantity: { type: integer }
+        price: { type: number }
+
+    InvoiceDetailUpdate:
+      type: object
+      properties:
+        productId: { type: integer }
+        quantity: { type: integer }
+        price: { type: number }
+
+    InvoiceDetailWithProduct:
+      allOf:
+        - $ref: "#/components/schemas/InvoiceDetail"
+        - type: object
+          properties:
+            product:
+              $ref: "#/components/schemas/Product"

@@ -1,0 +1,26 @@
+{
+  "name": "sales-api",
+  "version": "1.0.0",
+  "description": "Conjunto de APIs RESTful para gestionar un sistema de ventas (productos, clientes, facturas, detalles)",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^4.18.2",
+    "sequelize": "^6.32.1",
+    "mysql2": "^3.3.3",
+    "express-validator": "^6.15.0",
+    "swagger-ui-express": "^4.6.3",
+    "yamljs": "^0.3.0",
+    "body-parser": "^1.20.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
