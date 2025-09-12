@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación: Práctica de API REST con Rust</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .slide-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .slide {
+            width: 80%;
+            max-width: 900px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            display: none;
+        }
+        .slide.active {
+            display: block;
+        }
+        h1, h2 {
+            color: #007bff;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: left;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        li {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+        code {
+            background-color: #f8f9fa;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            text-align: left;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="slide active" id="slide1">
+            <h1>Práctica: Creación de API REST con Rust</h1>
+            <p>Una guía completa sobre el desarrollo de un API para gestionar Alumnos, usando Rust, MySQL y herramientas modernas.</p>
+            <p>Presentado por Grok (basado en la práctica anterior).</p>
+        </div>
+
+        <div class="slide" id="slide2">
+            <h2>Objetivo de la Práctica</h2>
+            <ul>
+                <li>Crear un API REST para el recurso "Alumnos".</li>
+                <li>Endpoints: GET (listar/obtener), POST (crear), PUT (actualizar), DELETE (eliminar).</li>
+                <li>Integrar base de datos MySQL para persistencia de datos.</li>
+                <li>Documentar el API con Swagger (OpenAPI) para pruebas interactivas.</li>
+                <li>Desarrollar en VS Code con Rust.</li>
+            </ul>
+        </div>
+
+        <div class="slide" id="slide3">
+            <h2>Tecnologías Principales</h2>
+            <ul>
+                <li><strong>Rust</strong>: Lenguaje de programación seguro, rápido y concurrente. Versión usada: 1.89.0.</li>
+                <li><strong>MySQL</strong>: Base de datos relacional para almacenar datos de alumnos (tabla con id, nombre, edad).</li>
+                <li>Desarrollo en VS Code con extensiones como Rust-Analyzer para autocompletado y análisis de código.</li>
+            </ul>
+            <p>Rust destaca por su seguridad de memoria sin garbage collector, ideal para APIs de alto rendimiento.</p>
+        </div>
+
+        <div class="slide" id="slide4">
+            <h2>Frameworks y Librerías Usadas</h2>
+            <ul>
+                <li><strong>Actix-web (4.11.0)</strong>: Framework web async para manejar rutas y servidores HTTP.</li>
+                <li><strong>SQLx (0.8.6)</strong>: Librería para consultas async a MySQL, seguras y verificadas en compile-time.</li>
+                <li><strong>Utoipa (5.4.0) + Utoipa-swagger-ui (9.0.2)</strong>: Para generar documentación OpenAPI y servir Swagger UI.</li>
+                <li><strong>Serde (1.0.219)</strong>: Serialización/deserialización de JSON.</li>
+                <li><strong>Dotenv (0.15.0)</strong>: Cargar variables de entorno (e.g., conexión DB).</li>
+                <li><strong>Chrono (0.4)</strong>: Manejo de fechas (opcional en el modelo).</li>
+                <li><strong>Tokio (1)</strong>: Runtime async para ejecutar el servidor.</li>
+            </ul>
+            <p>Estas librerías forman un ecosistema eficiente y moderno en Rust para APIs.</p>
+        </div>
+
+        <div class="slide" id="slide5">
+            <h2>Comandos para Crear y Configurar el Proyecto</h2>
+            <pre><code>cargo new rest_api_alumnos
+cd rest_api_alumnos</code></pre>
+            <p>Edita Cargo.toml con las dependencias listadas.</p>
+            <pre><code>cargo build  // Descarga e instala dependencias</code></pre>
+            <p>Crea .env con DATABASE_URL=mysql://root:tu_password@localhost:3306/alumnos_db</p>
+            <p>Configura MySQL:</p>
+            <pre><code>sudo mysql -u root -p
+CREATE DATABASE alumnos_db;
+USE alumnos_db;
+CREATE TABLE alumnos (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(255) NOT NULL,
+    edad INT NOT NULL
+);</code></pre>
+        </div>
+
+        <div class="slide" id="slide6">
+            <h2>Comandos para Ejecutar y Probar</h2>
+            <pre><code>cargo run  // Inicia el servidor en http://localhost:8080</code></pre>
+            <p>Accede a Swagger: http://localhost:8080/swagger-ui/</p>
+            <p>Pruebas con curl:</p>
+            <pre><code>curl -X POST http://localhost:8080/alumnos -H "Content-Type: application/json" -d '{"nombre":"Ana","edad":22}'
+curl http://localhost:8080/alumnos
+curl http://localhost:8080/alumnos/1
+curl -X PUT http://localhost:8080/alumnos/1 -H "Content-Type: application/json" -d '{"nombre":"Ana Actualizada","edad":23}'
+curl -X DELETE http://localhost:8080/alumnos/1</code></pre>
+            <p>Otros comandos: <code>cargo test</code> (para tests), <code>cargo fmt</code> (formateo), <code>cargo clippy</code> (linting).</p>
+        </div>
+
+        <div class="slide" id="slide7">
+            <h2>Partes Importantes de Rust en Esta Práctica</h2>
+            <ul>
+                <li><strong>Ownership y Borrowing</strong>: Usado en handlers para manejar datos sin copias innecesarias, asegurando seguridad de memoria.</li>
+                <li><strong>Async/Await</strong>: Todo el código es async con Tokio y Actix-web para manejo eficiente de I/O (e.g., consultas DB).</li>
+                <li><strong>Macros y Traits</strong>: SQLx usa macros para consultas verificadas; Serde con Derive para serialización.</li>
+                <li><strong>Error Handling</strong>: Uso de Result y match para manejar errores de DB y HTTP.</li>
+                <li><strong>Cargo</strong>: Gestor de paquetes integral para builds y dependencias.</li>
+                <li><strong>Seguridad</strong>: Borrow Checker previene data races; SQLx evita inyecciones SQL.</li>
+            </ul>
+            <p>Rust reduce bugs en runtime, haciendo el API confiable y performant.</p>
+        </div>
+
+        <div class="slide" id="slide8">
+            <h2>Estructura del Código</h2>
+            <ul>
+                <li><strong>Cargo.toml</strong>: Dependencias.</li>
+                <li><strong>.env</strong>: Configuración DB.</li>
+                <li><strong>src/main.rs</strong>: Modelos (Alumno), Handlers (get, post, etc.), Rutas, Conexión DB, OpenAPI.</li>
+            </ul>
+            <p>El servidor usa Actix-web para rutas en /alumnos y Swagger en /swagger-ui.</p>
+        </div>
+
+        <div class="slide" id="slide9">
+            <h2>Conclusión y Extensiones</h2>
+            <p>Esta práctica demuestra cómo Rust facilita APIs seguras y eficientes.</p>
+            <ul>
+                <li>Extensiones: Añadir autenticación (JWT), paginación, validaciones.</li>
+                <li>Deploy: Usa Docker o Heroku para producción.</li>
+                <li>Aprendizaje: Lee "The Rust Book" para más profundidad.</li>
+            </ul>
+            <p>¡Gracias por ver esta presentación!</p>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button id="prev">Anterior</button>
+        <button id="next">Siguiente</button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            document.getElementById('prev').disabled = index === 0;
+            document.getElementById('next').disabled = index === slides.length - 1;
+        }
+
+        document.getElementById('prev').addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+
+        document.getElementById('next').addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>

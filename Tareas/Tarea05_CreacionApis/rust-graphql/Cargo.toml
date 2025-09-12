@@ -1,0 +1,10 @@
+[package]
+name = "rust-graphql"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+async-graphql = "7"
+async-graphql-actix-web = "7"
+actix-web = "4"
+serde = { version = "1.0", features = ["derive"] }
