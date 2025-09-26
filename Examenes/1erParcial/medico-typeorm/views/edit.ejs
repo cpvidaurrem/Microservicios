@@ -1,0 +1,10 @@
+<h1>Editar Contacto</h1>
+<form action="/<%= persona.id %>?_method=PUT" method="POST">
+  <input name="nombres" value="<%= persona.nombres %>">
+  <input name="apellidos" value="<%= persona.apellidos %>">
+  <input name="cedula_profesional" value="<%= persona.cedula_profesional %>">
+  <input name="especialidad" value="<%= persona.especialidad %>">
+  <input name="anios_experiencia" value="<%= persona.anios_experiencia %>">
+  <input name="correo_electronico" value="<%= persona.correo_electronico %>">
+  <button type="submit">Actualizar</button>
+</form>

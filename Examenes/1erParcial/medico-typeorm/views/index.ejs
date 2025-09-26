@@ -1,0 +1,44 @@
+<h1>Medico</h1>
+<a href="/new">Nuevo contacto</a>
+<br /><br />
+
+<table border="1" cellpadding="5">
+  <thead>
+    <tr>
+      <th>Nombres</th>
+      <th>Apellidos</th>
+      <th>cedula profesional</th>
+      <th>Especialidad</th>
+      <th>Años experiencia</th>
+      <th>Correo Electronico</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% medico.forEach(p => { %>
+    <tr>
+      <td><%= p.nombres %></td>
+      <td><%= p.apellidos %></td>
+      <td><%= p.cedula_profesional %></td>
+      <td><%= p.especialidad %></td>
+      <td><%= p.anios_experiencia %></td>
+      <td><%= p.correo_electronico %></td>
+      <td>
+        <a href="/edit/<%= p.id %>">Editar</a>
+        <form
+          action="/<%= p.id %>?_method=DELETE"
+          method="POST"
+          style="display: inline"
+        >
+          <button
+            type="submit"
+            onclick="return confirm('¿Eliminar este contacto?')"
+          >
+            Eliminar
+          </button>
+        </form>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>

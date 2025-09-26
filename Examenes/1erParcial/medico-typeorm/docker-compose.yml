@@ -1,0 +1,31 @@
+services:
+  db:                                                 # Servicio de base de datos
+    image: mysql:latest                               # Usa la última versión de MySQL
+    container_name: mysql-medicos                       # Nombre del contenedor
+    restart: unless-stopped                           # Reinicia a menos que se detenga manualmente
+    environment:                                      # Variables de entorno para configurar MySQL
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: usersdb
+      MYSQL_USER: usersuser
+      MYSQL_PASSWORD: userpass
+    volumes:                                          # Volúmenes para persistencia de datos y scripts de inicialización
+      - db_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"                                   # Expone el puerto MySQL al host
+
+  web:                                                # Servicio de la aplicación Node.js
+    build: .                                          # Construye imagen con el Dockerfile
+    container_name: medicos-app
+    restart: unless-stopped
+    depends_on:                                       # Espera a que MySQL esté disponible
+      - db
+    env_file:                                         # Carga variables de entorno
+      - .env.docker # <── aquí se carga el archivo para Docker
+    ports:
+      - "8080:8080"                                   # Expone la app en localhost:8080
+    volumes:                                          # Sincroniza el código local con el contenedor (útil en dev)
+      - .:/usr/src/app
+
+volumes:
+  db_data:                                            # Volumen para persistir datos de MySQL
