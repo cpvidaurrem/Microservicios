@@ -1,0 +1,31 @@
+# FastAPI y servidor
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+
+# Base de datos PostgreSQL
+asyncpg
+databases[postgresql]
+sqlalchemy
+psycopg2-binary
+
+# HTTP Client
+httpx
+
+# JWT
+pyjwt
+python-jose[cryptography]
+
+# Logging
+python-json-logger
+
+# Utilidades
+python-dotenv
+python-multipart
+
+# Validación
+email-validator
+
+# RabbitMQ
+aio-pika
